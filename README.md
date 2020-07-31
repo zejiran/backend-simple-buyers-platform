@@ -1,5 +1,8 @@
 # Backend Simple Buyers Platform
 
+> “From emotions to materials, it's all about buying and selling”
+― Mehnaz Ansari
+
 ## Index
 
 - [Overview](#overview)
@@ -56,3 +59,5 @@ Gets ID of buyer and return:
 
 - **[MIT license](LICENSE)**
 - Copyright 2020 © Juan Alegría.
+
+<img src='https://i.ibb.co/sWSrvyF/logo.png' width="40%" alt="Logo">
