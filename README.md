@@ -11,6 +11,7 @@
     - [Load data to database](#1-load-data-to-database)
     - [List buyers](#2-list-buyers)
     - [Query buyers](#3-query-buyers)
+- [Usage](#usage)
 - [License](#license)
 
 ## Overview
@@ -52,6 +53,25 @@ Gets ID of buyer and return:
 - Shopping history.
 - Other buyers using same IP.
 - Some product recommendations that people also bought.
+
+## Usage
+
+1. Install <a href='https://www.docker.com/'>Docker</a>.
+2. ```docker pull dgraph/dgraph:v20.03.0``` for grab last Dgraph version.
+3. ```mkdir -p ~/dgraph``` for storing Dgraph data.
+4. Run Dgraph in Docker:
+```
+# Run Dgraph zero
+docker run -it -p 5080:5080 -p 6080:6080 -p 8080:8080 \
+  -p 9080:9080 -p 8000:8000 -v ~/dgraph:/dgraph --name dgraph \
+  dgraph/dgraph:v20.03.0 dgraph zero
+
+# In another terminal, now run Dgraph alpha
+docker exec -it dgraph dgraph alpha --lru_mb 2048 --zero localhost:5080 --whitelist 0.0.0.0/0
+
+# And in another, run ratel (Dgraph UI)
+docker exec -it dgraph dgraph-ratel
+```
 
 ## License
 
