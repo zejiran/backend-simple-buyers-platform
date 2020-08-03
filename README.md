@@ -56,22 +56,13 @@ Gets ID of buyer and return:
 
 ## Usage
 
-1. Install <a href='https://www.docker.com/'>Docker</a>.
-2. ```docker pull dgraph/dgraph:v20.03.0``` for grab last Dgraph version.
-3. ```mkdir -p ~/dgraph``` for storing Dgraph data.
-4. Run Dgraph in Docker:
-```
-# Run Dgraph zero
-docker run -it -p 5080:5080 -p 6080:6080 -p 8080:8080 \
-  -p 9080:9080 -p 8000:8000 -v ~/dgraph:/dgraph --name dgraph \
-  dgraph/dgraph:v20.03.0 dgraph zero
-
-# In another terminal, now run Dgraph alpha
-docker exec -it dgraph dgraph alpha --lru_mb 2048 --zero localhost:5080 --whitelist 0.0.0.0/0
-
-# And in another, run ratel (Dgraph UI)
-docker exec -it dgraph dgraph-ratel
-```
+1. Install [Docker](https://www.docker.com/) and [jq](https://stedolan.github.io/jq/).
+2. ```cd api-rest```.
+2. ```make dgraph``` for install packages and run Dgraph.
+3. On another terminal run ```npm run inject-dgraph-schema```.
+4. Our GraphQL native database is ready to use.
+Run queries in a tool like [GraphQL Playground](https://legacy.graphqlbin.com/new)
+with ```http://localhost:9000/graphql``` endpoint.
 
 ## License
 
