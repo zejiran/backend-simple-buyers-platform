@@ -9,6 +9,7 @@ import (
     "io/ioutil"
     "os"
     "strconv"
+    "strings"
 )
 
 // An array of Buyers
@@ -158,11 +159,11 @@ func main() {
 		fmt.Println(err)
 	}
 	defer csvFile.Close()
-    csvLines, err := csv.NewReader(csvFile).ReadAll()
+    csvProducts, err := csv.NewReader(csvFile).ReadAll()
     if err != nil {
         fmt.Println(err)
     }
-    for _, line := range csvLines {
+    for _, line := range csvProducts {
         data := "'" + line[0] + "'" + "," + "'" + line[1] + "'" + "," + line[2]
         _, err = db.Exec("INSERT IGNORE into Product VALUES (" + data + ");")
     }
@@ -177,11 +178,11 @@ func main() {
 		fmt.Println(err)
 	}
 	defer csvFile.Close()
-    csvLines, err = csv.NewReader(csvFile).ReadAll()
+    csvTransactions, err := csv.NewReader(csvFile).ReadAll()
     if err != nil {
         fmt.Println(err)
     }
-    for _, line := range csvLines {
+    for _, line := range csvTransactions {
         data := "'" + line[0] + "'" + "," + "'" + line[1] + "'" + "," + "'" + line[2] + "'" + "," + "'" + line[3] + "'"
         _, err = db.Exec("INSERT IGNORE into Transaction VALUES (" + data + ");")
     }
@@ -189,5 +190,39 @@ func main() {
         fmt.Println(err.Error())
     } else {
         fmt.Println("Successfully added transactions data...")
+    }
+    // Add buyer mapping with transactions
+    for i := 0; i < len(buyers.Buyers); i++ {
+        buyer_id := buyers.Buyers[i].ID
+        for _, line := range csvTransactions {
+            id_on_transaction := line[1]
+            if buyer_id == id_on_transaction {
+                transaction_id := line[0]
+                data := "'" + buyer_id + "','" +  transaction_id + "'"
+                _, err = db.Exec("INSERT IGNORE into TransactionBuyerMapping VALUES (" + data + ");")
+            }
+        }
+    }
+    if err != nil {
+        fmt.Println(err.Error())
+    } else {
+        fmt.Println("Successfully added buyer mapping data...")
+    }
+    // Add product mapping with transactions
+    for _, p_line := range csvProducts {
+        product_id := p_line[0]
+        for _, line := range csvTransactions {
+            ids_on_transaction := line[4]
+            if strings.Contains(ids_on_transaction, product_id) {
+                transaction_id := line[0]
+                data := "'" + product_id + "','" +  transaction_id + "'"
+                _, err = db.Exec("INSERT IGNORE into TransactionProductMapping VALUES (" + data + ");")
+            }
+        }
+    }
+    if err != nil {
+        fmt.Println(err.Error())
+    } else {
+        fmt.Println("Successfully added product mapping data...")
     }
 }
