@@ -4,9 +4,10 @@ import (
     "fmt"
 	"net/http"
 	"github.com/go-chi/chi"
-    "./handlers"
 	"time"
 	"strconv"
+    "./handlers"
+    "./database"
 )
 
 func main() {
@@ -22,6 +23,8 @@ func main() {
     handlers.UpdateProducts(currentTime)
     fmt.Println("\nWriting on transactions file...")
     handlers.UpdateTransactions(currentTime)
+    // Upload files to MySQL database
+    database.Database()
     // Router
     r.Get("/buyers", func(w http.ResponseWriter, r *http.Request) {
         w.Write([]byte("Generating file! Check your api-rest/responses folder."))

@@ -1,4 +1,4 @@
-package main
+package database
 
 import (
     "fmt"
@@ -23,8 +23,9 @@ type Buyer struct {
     ID     string `json:"id"`
 }
 
-func main() {
+func Database() {
     // Init database connection
+    fmt.Println("----------------------------------")
     fmt.Println("MySQL BuyerDB\n-------------------")
     db, err := sql.Open("mysql", "tester:@tcp(localhost:3306)/BuyerDB")
     if err != nil {
