@@ -32,7 +32,8 @@ func main() {
             data, _ := ioutil.ReadAll(response.Body)
             w.Write([]byte("File generated! Check your api-rest/responses folder."))
             // Write to file
-            err = ioutil.WriteFile("api-rest/responses/buyers.json", data, 0644)
+            processed := "{\"buyers\":" + string(data) + "}"
+            err = ioutil.WriteFile("api-rest/responses/buyers.json", []byte(processed), 0644)
             fmt.Printf("\n\nFile generated.")
             if err != nil {
                 panic(err)
@@ -90,12 +91,15 @@ func main() {
             raw := string(data)
             processed := ""
             first_point := true
+            first_time := true
             is_ip := false
             for _, chr := range raw {
                 line := ""
                 actual := string(chr)
-                if actual == "#" {
-                    line += "#"
+                if first_time {
+                    first_time = false
+                } else if actual == "#" {
+                    line += "\n"
                 } else if actual == "." && first_point {
                     line += ","
                     is_ip = true
@@ -106,10 +110,10 @@ func main() {
                     is_ip = false
                     line += "," + actual
                 } else if actual == "("{
-                    line += ",\""
+                    line += ",\"["
                 } else if actual == ")" {
                     first_point = true
-                    line += "\"\n"
+                    line += "]\""
                 } else {
                     line += actual
                 }

@@ -33,6 +33,9 @@ dgraph:
 letsgo:
 	go run api-rest/main.go
 
+database:
+	go run api-rest/database.go
+
 #Dgraph GraphQL
 graph:
 	docker run -it -p 8080:8080 dgraph/standalone:master

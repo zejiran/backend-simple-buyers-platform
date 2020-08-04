@@ -23,7 +23,7 @@ that is a simple buyer platform on Vue.js.
 ## Used Technologies
 
 - Language: Go.
-- Database: $NAME (It was Dgraph. After trying to use it for a while 
+- Database: MySQL (It was Dgraph. After trying to use it for a while 
 and can't get a good result, I have decided to use a different database.
 I would try to use it on this project when more documentation about Dgraph release).
 - API Router: ```chi```.
@@ -58,11 +58,14 @@ Gets ID of buyer and return:
 
 ## Usage
 
-1. Go to [Fronted](https://github.com/zejiran/frontend-simple-buyers-platform),
-if you haven't checked it out.
+1. Make sure you have installed all Go dependencies with ```go install```.
 2. Run ```make letsgo``` and follow instructions on terminal.
-3. Now you have generated CSV and JSON files from endpoints:
+3. Now you have generated CSV and JSON files from endpoints.
 ![Generated](https://i.ibb.co/ZLGq0Xj/jsoncsv.gif)
+4. Run ```make database``` to upload data to MySQL database.
+![Database](https://i.ibb.co/rcmxfcB/database.png)
+5. Return to [Frontend](https://github.com/zejiran/frontend-simple-buyers-platform),
+for setting up UI and see our web app up and running.
 
 ## License
 
