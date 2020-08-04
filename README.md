@@ -59,9 +59,9 @@ Gets ID of buyer and return:
 ## Usage
 
 1. Make sure you have installed all Go dependencies with ```go install```.
-2. Run ```make letsgo``` and follow instructions on terminal.
-3. Now you have generated CSV and JSON files from endpoints.
+2. Run ```make letsgo``` for generate CSV and JSON files from endpoints.
 ![Generated](https://i.ibb.co/ZLGq0Xj/jsoncsv.gif)
+3. Now you have started our backend server.
 4. Run ```make database``` to upload data to MySQL database.
 ![Database](https://i.ibb.co/rcmxfcB/database.png)
 5. Return to [Frontend](https://github.com/zejiran/frontend-simple-buyers-platform),

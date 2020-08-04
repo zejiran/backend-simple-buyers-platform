@@ -7,7 +7,7 @@ import (
 	"strings"
 )
 
-func UpdateProducts() {
+func UpdateProducts(currentTime string) {
     /* GET request for products
      Parameters:
         - date: date to query on unix timestamp format
@@ -18,7 +18,7 @@ func UpdateProducts() {
         - price: Price in dollar cents
     */
     url_products := "https://kqxty15mpg.execute-api.us-east-1.amazonaws.com/products"
-    response, err := http.Get(url_products)
+    response, err := http.Get(url_products + "?date=" + currentTime)
     if err != nil {
         fmt.Printf("The HTTP request failed with error %s\n", err)
     } else {

@@ -6,7 +6,7 @@ import (
 	"net/http"
 )
 
-func UpdateTransactions() {
+func UpdateTransactions(currentTime string) {
     /* GET request for transactions
      Parameters:
         - date: date to query on unix timestamp format
@@ -19,7 +19,7 @@ func UpdateTransactions() {
         - product ids: List of purchased products
     */
     url_transactions := "https://kqxty15mpg.execute-api.us-east-1.amazonaws.com/transactions"
-    response, err := http.Get(url_transactions)
+    response, err := http.Get(url_transactions + "?date=" + currentTime)
     if err != nil {
         fmt.Printf("The HTTP request failed with error %s\n", err)
     } else {

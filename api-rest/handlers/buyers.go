@@ -6,7 +6,7 @@ import (
 	"net/http"
 )
 
-func UpdateBuyers() {
+func UpdateBuyers(currentTime string) {
     /* GET request for buyers
      Parameters:
         - date: date to query on unix timestamp format
@@ -17,7 +17,7 @@ func UpdateBuyers() {
         - age: Buyer age
     */
     url_buyers := "https://kqxty15mpg.execute-api.us-east-1.amazonaws.com/buyers"
-    response, err := http.Get(url_buyers)
+    response, err := http.Get(url_buyers + "?date=" + currentTime)
     if err != nil {
         fmt.Printf("The HTTP request failed with error %s\n", err)
     } else {

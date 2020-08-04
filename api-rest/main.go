@@ -5,6 +5,8 @@ import (
 	"net/http"
 	"github.com/go-chi/chi"
     "./handlers"
+	"time"
+	"strconv"
 )
 
 func main() {
@@ -13,12 +15,13 @@ func main() {
     port := ":3717"
     r := chi.NewRouter()
     // Update response files, using by default actual date.
+    currentTime := strconv.FormatInt(time.Now().Unix(), 10)
     fmt.Println("Writing on buyers file...")
-    handlers.UpdateBuyers()
+    handlers.UpdateBuyers(currentTime)
     fmt.Println("\nWriting on products file...")
-    handlers.UpdateProducts()
+    handlers.UpdateProducts(currentTime)
     fmt.Println("\nWriting on transactions file...")
-    handlers.UpdateTransactions()
+    handlers.UpdateTransactions(currentTime)
     // Router
     r.Get("/buyers", func(w http.ResponseWriter, r *http.Request) {
         w.Write([]byte("Generating file! Check your api-rest/responses folder."))
