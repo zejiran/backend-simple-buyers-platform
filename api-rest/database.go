@@ -11,7 +11,7 @@ import (
     "strconv"
 )
 
-// an array of Buyers
+// An array of Buyers
 type Buyers struct {
     Buyers []Buyer `json:"buyers"`
 }
@@ -37,21 +37,21 @@ func main() {
 		return
 	}
 	// Create database
-	_,err = db.Exec("CREATE database IF NOT EXISTS BuyerDB")
+	_, err = db.Exec("CREATE database IF NOT EXISTS BuyerDB")
     if err != nil {
     fmt.Println(err.Error())
     } else {
         fmt.Println("Successfully created database...")
     }
     // Use database
-    _,err = db.Exec("USE BuyerDB")
+    _, err = db.Exec("USE BuyerDB")
     if err != nil {
         fmt.Println(err.Error())
     } else {
         fmt.Println("Successfully selected database...")
     }
 	// Create Buyer table
-    _,err = db.Exec(`
+    _, err = db.Exec(`
         CREATE TABLE IF NOT EXISTS Buyer
         (
             id   varchar(12),
@@ -66,7 +66,7 @@ func main() {
         fmt.Println("Successfully created Buyer table...")
     }
     // Create Product table
-    _,err = db.Exec(`
+    _, err = db.Exec(`
         CREATE TABLE IF NOT EXISTS Product
         (
             id    varchar(12),
@@ -81,7 +81,7 @@ func main() {
         fmt.Println("Successfully created Product table...")
     }
 	// Create Transaction table
-    _,err = db.Exec(`
+    _, err = db.Exec(`
         CREATE TABLE IF NOT EXISTS Transaction
         (
             id       varchar(40),
@@ -98,7 +98,7 @@ func main() {
     }
     // Create mapping tables
     // Buyer with Transaction
-    _,err = db.Exec(`
+    _, err = db.Exec(`
         CREATE TABLE IF NOT EXISTS TransactionBuyerMapping
         (
             buyer_id       varchar(12),
@@ -114,7 +114,7 @@ func main() {
         fmt.Println("Successfully created TransactionBuyerMapping table...")
     }
     // Product with Transaction
-    _,err = db.Exec(`
+    _, err = db.Exec(`
         CREATE TABLE IF NOT EXISTS TransactionProductMapping
         (
             product_id     varchar(12),
@@ -145,7 +145,7 @@ func main() {
         name := buyers.Buyers[i].Name
         age := strconv.FormatInt(int64(buyers.Buyers[i].Age), 10)
         data := "'" + id + "'" + "," + "'" + name + "'" + "," + age
-        _,err = db.Exec("INSERT IGNORE into Buyer VALUES (" + data + ");")
+        _, err = db.Exec("INSERT IGNORE into Buyer VALUES (" + data + ");")
     }
     if err != nil {
         fmt.Println(err.Error())
@@ -164,7 +164,7 @@ func main() {
     }
     for _, line := range csvLines {
         data := "'" + line[0] + "'" + "," + "'" + line[1] + "'" + "," + line[2]
-        _,err = db.Exec("INSERT IGNORE into Product VALUES (" + data + ");")
+        _, err = db.Exec("INSERT IGNORE into Product VALUES (" + data + ");")
     }
     if err != nil {
         fmt.Println(err.Error())
@@ -182,9 +182,8 @@ func main() {
         fmt.Println(err)
     }
     for _, line := range csvLines {
-        data := "'" + line[0] + "'" + "," + "'" + line[1] + "'" + "," + "'" + line[2] + "'"
-        fmt.Println(data)
-        _,err = db.Exec("INSERT IGNORE into Transaction VALUES (" + data + ");")
+        data := "'" + line[0] + "'" + "," + "'" + line[1] + "'" + "," + "'" + line[2] + "'" + "," + "'" + line[3] + "'"
+        _, err = db.Exec("INSERT IGNORE into Transaction VALUES (" + data + ");")
     }
     if err != nil {
         fmt.Println(err.Error())

@@ -6,7 +6,6 @@ import (
 	"net/http"
 	"github.com/go-chi/chi"
     "strings"
-    "unicode"
 )
 
 func main() {
@@ -90,34 +89,24 @@ func main() {
             // Format response to CSV
             raw := string(data)
             processed := ""
-            first_point := true
-            first_time := true
-            is_ip := false
+            comma_count := 0
             for _, chr := range raw {
-                line := ""
                 actual := string(chr)
-                if first_time {
-                    first_time = false
-                } else if actual == "#" {
-                    line += "\n"
-                } else if actual == "." && first_point {
-                    line += ","
-                    is_ip = true
-                    first_point = false
-                } else if actual == "." {
-                    line += "."
-                } else if is_ip && (actual != "." && !unicode.IsDigit(chr)) {
-                    is_ip = false
-                    line += "," + actual
-                } else if actual == "("{
-                    line += ",\"["
+                if actual == "(" {
+                    processed += "\"["
                 } else if actual == ")" {
-                    first_point = true
-                    line += "]\""
-                } else {
-                    line += actual
+                    processed += "]\""
+                } else if actual == "\x00" {
+                    processed += ","
+                    comma_count += 1
+                } else if actual != "\r" && actual != "#" {
+                    processed += actual
                 }
-                processed += line
+                if comma_count == 6 {
+                    processed = processed[:len(processed) - 2]
+                    processed += "\n"
+                    comma_count = 0
+                }
             }
             // Write to file
             err = ioutil.WriteFile("api-rest/responses/transactions.csv", []byte(processed), 0644)
