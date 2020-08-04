@@ -5,11 +5,13 @@ import (
     "io/ioutil"
 	"net/http"
 	"github.com/go-chi/chi"
+    "strings"
+    "unicode"
 )
 
 func main() {
     fmt.Println("Starting the application...")
-    port := ":3000"
+    port := ":3717"
     r := chi.NewRouter()
     /* GET request for buyers
      Parameters:
@@ -26,8 +28,15 @@ func main() {
         if err != nil {
             fmt.Printf("The HTTP request failed with error %s\n", err)
         } else {
+            fmt.Printf("\n\nWriting on file...")
             data, _ := ioutil.ReadAll(response.Body)
-            w.Write([]byte(string(data)))
+            w.Write([]byte("File generated! Check your api-rest/responses folder."))
+            // Write to file
+            err = ioutil.WriteFile("api-rest/responses/buyers.json", data, 0644)
+            fmt.Printf("\n\nFile generated.")
+            if err != nil {
+                panic(err)
+            }
         }
     })
     /* GET request for products
@@ -45,8 +54,16 @@ func main() {
         if err != nil {
             fmt.Printf("The HTTP request failed with error %s\n", err)
         } else {
+            fmt.Printf("\n\nWriting on file...")
             data, _ := ioutil.ReadAll(response.Body)
-            w.Write([]byte(string(data)))
+            w.Write([]byte("File generated! Check your api-rest/responses folder."))
+            csv := strings.Replace(string(data), "'", ",", -1)
+            // Write to file
+            err = ioutil.WriteFile("api-rest/responses/products.csv", []byte(csv), 0644)
+            fmt.Printf("\n\nFile generated.")
+            if err != nil {
+                panic(err)
+            }
         }
     })
     /* GET request for transactions
@@ -66,10 +83,51 @@ func main() {
         if err != nil {
             fmt.Printf("The HTTP request failed with error %s\n", err)
         } else {
+            fmt.Printf("\n\nWriting on file...")
             data, _ := ioutil.ReadAll(response.Body)
-            w.Write([]byte(string(data)))
+            w.Write([]byte("File generated! Check your api-rest/responses folder."))
+            // Format response to CSV
+            raw := string(data)
+            processed := ""
+            first_point := true
+            is_ip := false
+            for _, chr := range raw {
+                line := ""
+                actual := string(chr)
+                if actual == "#" {
+                    line += "#"
+                } else if actual == "." && first_point {
+                    line += ","
+                    is_ip = true
+                    first_point = false
+                } else if actual == "." {
+                    line += "."
+                } else if is_ip && (actual != "." && !unicode.IsDigit(chr)) {
+                    is_ip = false
+                    line += "," + actual
+                } else if actual == "("{
+                    line += ",\""
+                } else if actual == ")" {
+                    first_point = true
+                    line += "\"\n"
+                } else {
+                    line += actual
+                }
+                processed += line
+            }
+            // Write to file
+            err = ioutil.WriteFile("api-rest/responses/transactions.csv", []byte(processed), 0644)
+            fmt.Printf("\n\nFile generated.")
+            if err != nil {
+                panic(err)
+            }
         }
     })
-    fmt.Println("Serving on localhost" + port)
+    fmt.Println("\nNow go to:\n" +
+    "\n http://localhost" + port + "/buyers" +
+    "\n http://localhost" + port + "/products" +
+    "\n http://localhost" + port + "/transactions" +
+    "\n\nThis generates respective files with our responses." +
+    "\n\nAfter done, you can exit from this terminal.")
     http.ListenAndServe(port, r)
 }

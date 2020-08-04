@@ -30,7 +30,7 @@ dgraph:
 	npm install
 	npm run dgraph
 
-run:
+letsgo:
 	go run api-rest/main.go
 
 #Dgraph GraphQL

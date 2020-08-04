@@ -23,7 +23,9 @@ that is a simple buyer platform on Vue.js.
 ## Used Technologies
 
 - Language: Go.
-- Database: Dgraph.
+- Database: $NAME (It was Dgraph. After trying to use it for a while 
+and can't get a good result, I have decided to use a different database.
+I would try to use it on this project when more documentation about Dgraph release).
 - API Router: ```chi```.
 - Interface: Vue.js & Vuetify.
 
@@ -56,13 +58,11 @@ Gets ID of buyer and return:
 
 ## Usage
 
-1. Install [Docker](https://www.docker.com/) and [jq](https://stedolan.github.io/jq/).
-2. ```cd api-rest```.
-2. ```make dgraph``` for install packages and run Dgraph.
-3. On another terminal run ```npm run inject-dgraph-schema```.
-4. Our GraphQL native database is ready to use.
-Run queries in a tool like [GraphQL Playground](https://legacy.graphqlbin.com/new)
-with ```http://localhost:9000/graphql``` endpoint.
+1. Go to [Fronted](https://github.com/zejiran/frontend-simple-buyers-platform),
+if you haven't checked it out.
+2. Run ```make letsgo``` and follow instructions on terminal.
+3. Now you have generated CSV and JSON files from endpoints:
+![Generated](https://i.ibb.co/ZLGq0Xj/jsoncsv.gif)
 
 ## License
 
