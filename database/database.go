@@ -33,7 +33,14 @@ type Transaction struct {
     ID   string `json:"name"`
     BuyerID    string `json:"buyerid"`
     IP  string `json:"ip"`
-    Device string `json:"devices"`
+    Device string `json:"device"`
+}
+
+type BuyerProfile struct {
+    TransactionID   string `json:"transactionid"`
+    Device string `json:"device"`
+    Products string `json:"products"`
+    SameIP string `json:"sameip"`
 }
 
 func Database() {
@@ -147,7 +154,7 @@ func Database() {
     // Start adding data from response files
     fmt.Println("-----------------------")
     // Add buyers data
-    jsonFile, err := os.Open("api-rest/responses/buyers.json")
+    jsonFile, err := os.Open("responses/buyers.json")
     if err != nil {
         fmt.Println(err)
     }
@@ -168,7 +175,7 @@ func Database() {
         fmt.Println("Successfully added buyers data...")
     }
     // Add products data
-    csvFile, err := os.Open("api-rest/responses/products.csv")
+    csvFile, err := os.Open("responses/products.csv")
     if err != nil {
 		fmt.Println(err)
 	}
@@ -187,7 +194,7 @@ func Database() {
         fmt.Println("Successfully added products data...")
     }
     // Add transactions data
-    csvFile, err = os.Open("api-rest/responses/transactions.csv")
+    csvFile, err = os.Open("responses/transactions.csv")
     if err != nil {
 		fmt.Println(err)
 	}
@@ -391,7 +398,7 @@ func SearchBuyer(id_buyer string) (export_buyers string){
         fmt.Println(err.Error())
     }
     // Query buyer transactions
-    rows, err := db.Query("SELECT * FROM Buyer where id LIKE \"%" + id_buyer + "%\";")
+    rows, err := db.Query("SELECT * FROM Buyer WHERE id LIKE \"%" + id_buyer + "%\";")
     if err != nil {
         fmt.Println(err.Error())
     }
@@ -414,46 +421,86 @@ func SearchBuyer(id_buyer string) (export_buyers string){
     return
 }
 
-// func ProfileBuyer(id_buyer string) (export_buyer string){
-//     // Init database connection
-//     fmt.Println("----------------------------------")
-//     db, err := sql.Open("mysql", "tester:@tcp(localhost:3306)/BuyerDB")
-//     if err != nil {
-//         panic(err.Error())
-//     }
-//     defer db.Close()
-//     // Check if there is connection
-//     err = db.Ping()
-// 	if err != nil {
-// 		fmt.Printf("Error connection: %v", err)
-// 		return
-// 	}
-//     // Use database
-//     _, err = db.Exec("USE BuyerDB")
-//     if err != nil {
-//         fmt.Println(err.Error())
-//     }
-//     // Query buyer transactions
-//     rows, err := db.Query("SELECT * FROM Buyer JOIN TransactionBuyerMapping on" +
-//     " Buyer.id = TransactionBuyerMapping.buyer_id JOIN Transaction T on TransactionBuyerMapping.transaction_id = T.id" +
-//     " where Buyer.id = \"" + id_buyer + "\";")
-//     if err != nil {
-//         fmt.Println(err.Error())
-//     }
-//     for rows.Next() {
-//         var transaction_id string
-//         var transaction_id
-//         err = rows.Scan(&id, &name, &age, &buyer_id, &transaction_id)
-//         actual := Buyer {Name: name, Age: age, ID: id}
-//         json_format, _ := json.Marshal(actual)
-//         export_buyers += string(json_format) + ","
-//     }
-//     export_buyers = "[" + export_buyers + "]"
-//     if err != nil {
-//         fmt.Println(err.Error())
-//     } else {
-//         fmt.Println("-------------------------")
-//         fmt.Println("Successfully buyer writing on endpoint...")
-//     }
-//     return
-// }
+func ProfileBuyer(id_buyer string) (export_profile string){
+    // Init database connection
+    fmt.Println("----------------------------------")
+    db, err := sql.Open("mysql", "tester:@tcp(localhost:3306)/BuyerDB")
+    if err != nil {
+        panic(err.Error())
+    }
+    defer db.Close()
+    // Check if there is connection
+    err = db.Ping()
+	if err != nil {
+		fmt.Printf("Error connection: %v", err)
+		return
+	}
+    // Use database
+    _, err = db.Exec("USE BuyerDB")
+    if err != nil {
+        fmt.Println(err.Error())
+    }
+    // Query buyer transactions
+    rows, err := db.Query("SELECT * FROM Buyer JOIN TransactionBuyerMapping on" +
+    " Buyer.id = TransactionBuyerMapping.buyer_id JOIN Transaction T on TransactionBuyerMapping.transaction_id = T.id" +
+    " WHERE Buyer.id = \"" + id_buyer + "\";")
+    if err != nil {
+        fmt.Println(err.Error())
+    }
+    for rows.Next() {
+        var ip string
+        // Variables to export
+        var transaction_id string
+        var device string
+        var ignore string
+        err = rows.Scan(&ignore, &ignore, &ignore, &ignore, &transaction_id, &ignore, &ignore, &ip, &device)
+        // Query buyer with same ip
+        rowsip, err := db.Query("SELECT * FROM Buyer JOIN TransactionBuyerMapping on" +
+        " Buyer.id = TransactionBuyerMapping.buyer_id JOIN Transaction T on TransactionBuyerMapping.transaction_id = T.id" +
+        " WHERE T.ip = \"" + ip + "\";")
+        if err != nil {
+            fmt.Println(err.Error())
+        }
+        export_buyers := ""
+        for rowsip.Next() {
+            var id string
+            var name string
+            var age int
+            err = rowsip.Scan(&id, &name, &age)
+            actual := Buyer {Name: name, Age: age, ID: id}
+            json_format, _ := json.Marshal(actual)
+            export_buyers += string(json_format) + ","
+        }
+        export_buyers = "[" + export_buyers + "]"
+        // Query products on transaction
+        rowsproducts, err := db.Query("SELECT * FROM Product JOIN TransactionProductMapping on" +
+        " Product.id = TransactionProductMapping.product_id JOIN Transaction T on" +
+        " TransactionProductMapping.transaction_id = T.id WHERE T.id = \"" + transaction_id + "\";")
+        if err != nil {
+            fmt.Println(err.Error())
+        }
+        export_products := ""
+        for rowsproducts.Next() {
+            var id string
+            var name string
+            var price int
+            err = rowsproducts.Scan(&id, &name, &price)
+            actual := Product {Name: name, Price: price, ID: id}
+            json_format, _ := json.Marshal(actual)
+            export_products += string(json_format) + ","
+        }
+        export_products = "[" + export_products + "]"
+        // Export profile data
+        actual := BuyerProfile {TransactionID: transaction_id, Device: device, Products: export_products, SameIP: export_buyers}
+        json_format, _ := json.Marshal(actual)
+        export_profile += string(json_format) + ","
+    }
+    export_profile = "[" + export_profile + "]"
+    if err != nil {
+        fmt.Println(err.Error())
+    } else {
+        fmt.Println("-------------------------")
+        fmt.Println("Successfully profile writing on endpoint...")
+    }
+    return
+}

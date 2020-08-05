@@ -50,6 +50,11 @@ func main() {
         response := database.SearchBuyer(chi.URLParam(r, "id"))
         w.Write([]byte(response))
     })
+    r.Get("/profile/{id}", func(w http.ResponseWriter, r *http.Request) {
+        w.Header().Set("Access-Control-Allow-Origin", "*")
+        response := database.ProfileBuyer(chi.URLParam(r, "id"))
+        w.Write([]byte(response))
+    })
     // Server
     fmt.Println("----------------\nServing on localhost" + port + "...")
 	err := http.ListenAndServe(port, r)
