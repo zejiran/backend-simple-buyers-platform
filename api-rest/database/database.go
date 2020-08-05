@@ -272,8 +272,9 @@ func QueryBuyers() (export_buyers string){
         err = rows.Scan(&id, &name, &age)
         actual := Buyer {Name: name, Age: age, ID: id}
         json_format, _ := json.Marshal(actual)
-        export_buyers += string(json_format)
+        export_buyers += string(json_format) + ","
     }
+    export_buyers = "[" + export_buyers + "]"
     if err != nil {
         fmt.Println(err.Error())
     } else {
@@ -314,8 +315,9 @@ func QueryProducts() (export_products string){
         err = rows.Scan(&id, &name, &price)
         actual := Product {Name: name, Price: price, ID: id}
         json_format, _ := json.Marshal(actual)
-        export_products += string(json_format)
+        export_products += string(json_format) + ","
     }
+    export_products = "[" + export_products + "]"
     if err != nil {
         fmt.Println(err.Error())
     } else {
@@ -357,8 +359,9 @@ func QueryTransactions() (export_transactions string){
         err = rows.Scan(&id, &buyerid, &ip, &device)
         actual := Transaction {ID: id, BuyerID: buyerid, Device: device, IP: ip}
         json_format, _ := json.Marshal(actual)
-        export_transactions += string(json_format)
+        export_transactions += string(json_format) + ","
     }
+    export_transactions = "[" + export_transactions + "]"
     if err != nil {
         fmt.Println(err.Error())
     } else {
