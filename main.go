@@ -45,14 +45,28 @@ func main() {
         response := database.QueryTransactions()
         w.Write([]byte(response))
     })
+    // User search
     r.Get("/search/{id}", func(w http.ResponseWriter, r *http.Request) {
         w.Header().Set("Access-Control-Allow-Origin", "*")
         response := database.SearchBuyer(chi.URLParam(r, "id"))
         w.Write([]byte(response))
     })
-    r.Get("/profile/{id}", func(w http.ResponseWriter, r *http.Request) {
+    // User transactions
+    r.Get("/transaction/data/{id}", func(w http.ResponseWriter, r *http.Request) {
         w.Header().Set("Access-Control-Allow-Origin", "*")
-        response := database.ProfileBuyer(chi.URLParam(r, "id"))
+        response := database.TransactionBuyer(chi.URLParam(r, "id"))
+        w.Write([]byte(response))
+    })
+    // Products on transaction
+    r.Get("/transaction/products/{id}", func(w http.ResponseWriter, r *http.Request) {
+        w.Header().Set("Access-Control-Allow-Origin", "*")
+        response := database.TransactionProducts(chi.URLParam(r, "id"))
+        w.Write([]byte(response))
+    })
+    // Same IP users
+    r.Get("/transaction/sameip/{ip}", func(w http.ResponseWriter, r *http.Request) {
+        w.Header().Set("Access-Control-Allow-Origin", "*")
+        response := database.SameIPBuyer(chi.URLParam(r, "id"))
         w.Write([]byte(response))
     })
     // Server
