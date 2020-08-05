@@ -60,12 +60,16 @@ Gets ID of buyer and return:
 
 1. Make sure you have installed all Go dependencies with ```go install```.
 2. Run ```make letsgo``` for generate CSV and JSON files from endpoints.
+
 ![Generated](https://i.ibb.co/ZLGq0Xj/jsoncsv.gif)
+
 3. Now you have started our backend server and uploaded data to MySQL database.
+
 ![Database](https://i.ibb.co/rcmxfcB/database.png)
+
 4. If your URL to database is different, change ```tester:@tcp(localhost:3306)/BuyerDB``` 
 on line 30 api-rest/database/database.go with your own URL and user for MySQL.  
-5. Return to [Frontend](https://github.com/zejiran/frontend-simple-buyers-platform),
+5. Return to [Frontend](https://github.com/zejiran/frontend-simple-buyers-platform#usage),
 for setting up UI and see our web app up and running.
 
 ## License
