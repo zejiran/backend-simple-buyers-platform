@@ -31,10 +31,10 @@ dgraph:
 	npm run dgraph
 
 letsgo:
-	go run api-rest/main.go
+	go run main.go
 
 database:
-	go run api-rest/database.go
+	go run database.go
 
 #Dgraph GraphQL
 graph:

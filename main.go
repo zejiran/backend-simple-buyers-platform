@@ -27,7 +27,6 @@ func main() {
     database.Database()
     // Router
     r.Get("/", func(w http.ResponseWriter, r *http.Request) {
-        w.Header().Set("Access-Control-Allow-Origin", "*")
         response := "Welcome to root, please go to /buyers, /products or /transactions"
         w.Write([]byte(response))
     })
@@ -44,6 +43,11 @@ func main() {
     r.Get("/transactions", func(w http.ResponseWriter, r *http.Request) {
         w.Header().Set("Access-Control-Allow-Origin", "*")
         response := database.QueryTransactions()
+        w.Write([]byte(response))
+    })
+    r.Get("/search/{id}", func(w http.ResponseWriter, r *http.Request) {
+        w.Header().Set("Access-Control-Allow-Origin", "*")
+        response := database.SearchBuyer(chi.URLParam(r, "id"))
         w.Write([]byte(response))
     })
     // Server
