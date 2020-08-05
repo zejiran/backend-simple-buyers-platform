@@ -227,3 +227,133 @@ func Database() {
         fmt.Println("Successfully added product mapping data...")
     }
 }
+
+func QueryBuyers() (buyers string){
+    // Init database connection
+    fmt.Println("----------------------------------")
+    db, err := sql.Open("mysql", "tester:@tcp(localhost:3306)/BuyerDB")
+    if err != nil {
+        panic(err.Error())
+    }
+    defer db.Close()
+    // Check if there is connection
+    err = db.Ping()
+	if err != nil {
+		fmt.Printf("Error connection: %v", err)
+		return
+	}
+    // Use database
+    _, err = db.Exec("USE BuyerDB")
+    if err != nil {
+        fmt.Println(err.Error())
+    }
+    // Query buyers
+    rows, err := db.Query("SELECT * FROM Buyer")
+    if err != nil {
+        fmt.Println(err.Error())
+    }
+    lines := ""
+    for rows.Next() {
+        var id string
+        var name string
+        var age int
+        err = rows.Scan(&id, &name, &age)
+        lines += "{id: '" + id + "', name: " + "'" + name + "', age: " +
+        "'" + strconv.FormatInt(int64(age), 10) + "},"
+    }
+    if err != nil {
+        fmt.Println(err.Error())
+    } else {
+        fmt.Println("-------------------------")
+        fmt.Println("Successfully buyer writing on endpoint...")
+    }
+    buyers = "buyers: [" + lines + "]"
+    return
+}
+
+func QueryProducts() (products string){
+    // Init database connection
+    fmt.Println("----------------------------------")
+    db, err := sql.Open("mysql", "tester:@tcp(localhost:3306)/BuyerDB")
+    if err != nil {
+        panic(err.Error())
+    }
+    defer db.Close()
+    // Check if there is connection
+    err = db.Ping()
+	if err != nil {
+		fmt.Printf("Error connection: %v", err)
+		return
+	}
+    // Use database
+    _, err = db.Exec("USE BuyerDB")
+    if err != nil {
+        fmt.Println(err.Error())
+    }
+    // Query products
+    rows, err := db.Query("SELECT * FROM Product")
+    if err != nil {
+        fmt.Println(err.Error())
+    }
+    lines := ""
+    for rows.Next() {
+        var id string
+        var name string
+        var price int
+        err = rows.Scan(&id, &name, &price)
+        lines += "{id: '" + id + "', name: " + "'" + name + "', price: " + "'" +
+        strconv.FormatInt(int64(price), 10) + "},"
+    }
+    if err != nil {
+        fmt.Println(err.Error())
+    } else {
+        fmt.Println("-------------------------")
+        fmt.Println("Successfully product writing on endpoint...")
+    }
+    products = "products: [" + lines + "]"
+    return
+}
+
+func QueryTransactions() (transactions string){
+    // Init database connection
+    fmt.Println("----------------------------------")
+    db, err := sql.Open("mysql", "tester:@tcp(localhost:3306)/BuyerDB")
+    if err != nil {
+        panic(err.Error())
+    }
+    defer db.Close()
+    // Check if there is connection
+    err = db.Ping()
+	if err != nil {
+		fmt.Printf("Error connection: %v", err)
+		return
+	}
+    // Use database
+    _, err = db.Exec("USE BuyerDB")
+    if err != nil {
+        fmt.Println(err.Error())
+    }
+    // Query transactions
+    rows, err := db.Query("SELECT * FROM Transaction")
+    if err != nil {
+        fmt.Println(err.Error())
+    }
+    lines := ""
+    for rows.Next() {
+        var id string
+        var buyerid string
+        var ip string
+        var device string
+        err = rows.Scan(&id, &buyerid, &ip, &device)
+        lines += "{id: '" + id + "', buyerid: " + "'" + buyerid + "', ip: " +
+         "'" + ip + "', device: " + "'" + device + "},"
+    }
+    if err != nil {
+        fmt.Println(err.Error())
+    } else {
+        fmt.Println("-------------------------")
+        fmt.Println("Successfully transaction writing on endpoint...")
+    }
+    transactions = "transactions: [" + lines + "]"
+    return
+}

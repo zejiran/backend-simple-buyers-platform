@@ -26,14 +26,21 @@ func main() {
     // Upload files to MySQL database
     database.Database()
     // Router
+    r.Get("/", func(w http.ResponseWriter, r *http.Request) {
+        response := "Welcome to root, please go to /buyers, /products or /transactions"
+        w.Write([]byte(response))
+    })
     r.Get("/buyers", func(w http.ResponseWriter, r *http.Request) {
-        w.Write([]byte("Generating file! Check your api-rest/responses folder."))
+        response := database.QueryBuyers()
+        w.Write([]byte(response))
     })
     r.Get("/products", func(w http.ResponseWriter, r *http.Request) {
-        w.Write([]byte("Generating file! Check your api-rest/responses folder."))
+        response := database.QueryProducts()
+        w.Write([]byte(response))
     })
     r.Get("/transactions", func(w http.ResponseWriter, r *http.Request) {
-        w.Write([]byte("Generating file! Check your api-rest/responses folder."))
+        response := database.QueryTransactions()
+        w.Write([]byte(response))
     })
     // Server
     fmt.Println("----------------\nServing on localhost" + port + "...")
