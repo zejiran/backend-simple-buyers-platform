@@ -24,7 +24,7 @@ func UpdateBuyers(currentTime string) {
         data, _ := ioutil.ReadAll(response.Body)
         // Write to file
         processed := "{\"buyers\":" + string(data) + "}"
-        err = ioutil.WriteFile("api-rest/responses/buyers.json", []byte(processed), 0644)
+        err = ioutil.WriteFile("responses/buyers.json", []byte(processed), 0644)
         fmt.Printf("File generated.\n")
         if err != nil {
             panic(err)

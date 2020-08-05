@@ -25,7 +25,7 @@ func UpdateProducts(currentTime string) {
         data, _ := ioutil.ReadAll(response.Body)
         csv := strings.Replace(string(data), "'", ",", -1)
         // Write to file
-        err = ioutil.WriteFile("api-rest/responses/products.csv", []byte(csv), 0644)
+        err = ioutil.WriteFile("responses/products.csv", []byte(csv), 0644)
         fmt.Printf("File generated.\n")
         if err != nil {
         panic(err)

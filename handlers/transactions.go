@@ -47,7 +47,7 @@ func UpdateTransactions(currentTime string) {
             }
         }
         // Write to file
-        err = ioutil.WriteFile("api-rest/responses/transactions.csv", []byte(processed), 0644)
+        err = ioutil.WriteFile("responses/transactions.csv", []byte(processed), 0644)
         fmt.Printf("File generated.\n")
     if err != nil {
         panic(err)
