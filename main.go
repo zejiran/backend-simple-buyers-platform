@@ -66,7 +66,7 @@ func main() {
     // Same IP users
     r.Get("/transaction/sameip/{ip}", func(w http.ResponseWriter, r *http.Request) {
         w.Header().Set("Access-Control-Allow-Origin", "*")
-        response := database.SameIPBuyer(chi.URLParam(r, "id"))
+        response := database.SameIPBuyer(chi.URLParam(r, "ip"))
         w.Write([]byte(response))
     })
     // Server

@@ -488,10 +488,10 @@ func SameIPBuyer(transaction_ip string) (export_sameip string){
     if err != nil {
         fmt.Println(err.Error())
     }
-    // Query buyer with same ip
+    // Query products on transaction
     rows, err := db.Query("SELECT * FROM Buyer JOIN TransactionBuyerMapping on" +
-    " Buyer.id = TransactionBuyerMapping.buyer_id JOIN Transaction T on TransactionBuyerMapping.transaction_id = T.id" +
-    " WHERE T.ip = \"" + transaction_ip + "\";")
+    " Buyer.id = TransactionBuyerMapping.buyer_id JOIN Transaction T on" +
+    " TransactionBuyerMapping.transaction_id = T.id WHERE T.ip = \"" + transaction_ip + "\";")
     if err != nil {
         fmt.Println(err.Error())
     }
@@ -499,7 +499,8 @@ func SameIPBuyer(transaction_ip string) (export_sameip string){
         var id string
         var name string
         var age int
-        err = rows.Scan(&id, &name, &age)
+        var ignore string
+        err = rows.Scan(&id, &name, &age, &ignore, &ignore, &ignore, &ignore, &ignore, &ignore)
         actual := Buyer {Name: name, Age: age, ID: id}
         json_format, _ := json.Marshal(actual)
         export_sameip += string(json_format) + ","
@@ -509,7 +510,7 @@ func SameIPBuyer(transaction_ip string) (export_sameip string){
         fmt.Println(err.Error())
     } else {
         fmt.Println("-------------------------")
-        fmt.Println("Successfully buyer writing on endpoint...")
+        fmt.Println("Successfully same IP buyers writing on endpoint...")
     }
     return
 }
@@ -545,7 +546,8 @@ func TransactionProducts(transaction_id string) (export_products string){
         var id string
         var name string
         var price int
-        err = rows.Scan(&id, &name, &price)
+        var ignore string
+        err = rows.Scan(&id, &name, &price, &ignore, &ignore, &ignore, &ignore, &ignore, &ignore)
         actual := Product {Name: name, Price: price, ID: id}
         json_format, _ := json.Marshal(actual)
         export_products += string(json_format) + ","
