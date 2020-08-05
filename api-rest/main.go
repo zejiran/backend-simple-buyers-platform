@@ -27,18 +27,22 @@ func main() {
     database.Database()
     // Router
     r.Get("/", func(w http.ResponseWriter, r *http.Request) {
+        w.Header().Set("Access-Control-Allow-Origin", "*")
         response := "Welcome to root, please go to /buyers, /products or /transactions"
         w.Write([]byte(response))
     })
     r.Get("/buyers", func(w http.ResponseWriter, r *http.Request) {
+        w.Header().Set("Access-Control-Allow-Origin", "*")
         response := database.QueryBuyers()
         w.Write([]byte(response))
     })
     r.Get("/products", func(w http.ResponseWriter, r *http.Request) {
+        w.Header().Set("Access-Control-Allow-Origin", "*")
         response := database.QueryProducts()
         w.Write([]byte(response))
     })
     r.Get("/transactions", func(w http.ResponseWriter, r *http.Request) {
+        w.Header().Set("Access-Control-Allow-Origin", "*")
         response := database.QueryTransactions()
         w.Write([]byte(response))
     })

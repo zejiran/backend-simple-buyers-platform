@@ -23,6 +23,19 @@ type Buyer struct {
     ID     string `json:"id"`
 }
 
+type Product struct {
+    Name   string `json:"name"`
+    Price    int    `json:"price"`
+    ID     string `json:"id"`
+}
+
+type Transaction struct {
+    ID   string `json:"name"`
+    BuyerID    string `json:"buyerid"`
+    IP  string `json:"ip"`
+    Device string `json:"devices"`
+}
+
 func Database() {
     // Init database connection
     fmt.Println("----------------------------------")
@@ -228,7 +241,7 @@ func Database() {
     }
 }
 
-func QueryBuyers() (buyers string){
+func QueryBuyers() (export_buyers string){
     // Init database connection
     fmt.Println("----------------------------------")
     db, err := sql.Open("mysql", "tester:@tcp(localhost:3306)/BuyerDB")
@@ -252,14 +265,14 @@ func QueryBuyers() (buyers string){
     if err != nil {
         fmt.Println(err.Error())
     }
-    lines := ""
     for rows.Next() {
         var id string
         var name string
         var age int
         err = rows.Scan(&id, &name, &age)
-        lines += "{id: '" + id + "', name: " + "'" + name + "', age: " +
-        "'" + strconv.FormatInt(int64(age), 10) + "},"
+        actual := Buyer {Name: name, Age: age, ID: id}
+        json_format, _ := json.Marshal(actual)
+        export_buyers += string(json_format)
     }
     if err != nil {
         fmt.Println(err.Error())
@@ -267,11 +280,10 @@ func QueryBuyers() (buyers string){
         fmt.Println("-------------------------")
         fmt.Println("Successfully buyer writing on endpoint...")
     }
-    buyers = "buyers: [" + lines + "]"
     return
 }
 
-func QueryProducts() (products string){
+func QueryProducts() (export_products string){
     // Init database connection
     fmt.Println("----------------------------------")
     db, err := sql.Open("mysql", "tester:@tcp(localhost:3306)/BuyerDB")
@@ -295,14 +307,14 @@ func QueryProducts() (products string){
     if err != nil {
         fmt.Println(err.Error())
     }
-    lines := ""
     for rows.Next() {
         var id string
         var name string
         var price int
         err = rows.Scan(&id, &name, &price)
-        lines += "{id: '" + id + "', name: " + "'" + name + "', price: " + "'" +
-        strconv.FormatInt(int64(price), 10) + "},"
+        actual := Product {Name: name, Price: price, ID: id}
+        json_format, _ := json.Marshal(actual)
+        export_products += string(json_format)
     }
     if err != nil {
         fmt.Println(err.Error())
@@ -310,11 +322,10 @@ func QueryProducts() (products string){
         fmt.Println("-------------------------")
         fmt.Println("Successfully product writing on endpoint...")
     }
-    products = "products: [" + lines + "]"
     return
 }
 
-func QueryTransactions() (transactions string){
+func QueryTransactions() (export_transactions string){
     // Init database connection
     fmt.Println("----------------------------------")
     db, err := sql.Open("mysql", "tester:@tcp(localhost:3306)/BuyerDB")
@@ -338,15 +349,15 @@ func QueryTransactions() (transactions string){
     if err != nil {
         fmt.Println(err.Error())
     }
-    lines := ""
     for rows.Next() {
         var id string
         var buyerid string
         var ip string
         var device string
         err = rows.Scan(&id, &buyerid, &ip, &device)
-        lines += "{id: '" + id + "', buyerid: " + "'" + buyerid + "', ip: " +
-         "'" + ip + "', device: " + "'" + device + "},"
+        actual := Transaction {ID: id, BuyerID: buyerid, Device: device, IP: ip}
+        json_format, _ := json.Marshal(actual)
+        export_transactions += string(json_format)
     }
     if err != nil {
         fmt.Println(err.Error())
@@ -354,6 +365,5 @@ func QueryTransactions() (transactions string){
         fmt.Println("-------------------------")
         fmt.Println("Successfully transaction writing on endpoint...")
     }
-    transactions = "transactions: [" + lines + "]"
     return
 }
