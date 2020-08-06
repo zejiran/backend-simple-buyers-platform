@@ -67,7 +67,7 @@ Gets ID of buyer and return:
 
 ![Database](https://i.ibb.co/rcmxfcB/database.png)
 
-4. If your URL to database is different, change ```tester:@tcp(localhost:3306)/BuyerDB``` 
+4. If your URL to database is different, change ```tester:@tcp(localhost:3306)/``` 
 on line 30 api-rest/database/database.go with your own URL and user for MySQL.  
 5. Return to [Frontend](https://github.com/zejiran/frontend-simple-buyers-platform#usage),
 for setting up UI and see our web app up and running.
