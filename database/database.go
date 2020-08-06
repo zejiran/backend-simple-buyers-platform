@@ -47,7 +47,7 @@ func Database() {
     // Init database connection
     fmt.Println("----------------------------------")
     fmt.Println("MySQL BuyerDB\n-------------------")
-    db, err := sql.Open("mysql", "tester:@tcp(localhost:3306)/BuyerDB")
+    db, err := sql.Open("mysql", "tester:@tcp(localhost:3306)/")
     if err != nil {
         panic(err.Error())
     }
@@ -61,7 +61,7 @@ func Database() {
 	// Create database
 	_, err = db.Exec("CREATE database IF NOT EXISTS BuyerDB")
     if err != nil {
-    fmt.Println(err.Error())
+        fmt.Println(err.Error())
     } else {
         fmt.Println("Successfully created database...")
     }
