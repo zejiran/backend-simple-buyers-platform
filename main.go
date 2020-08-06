@@ -31,40 +31,47 @@ func main() {
         w.Write([]byte(response))
     })
     r.Get("/buyers", func(w http.ResponseWriter, r *http.Request) {
+        w.Header().Set("Content-Type", "application/json")
         w.Header().Set("Access-Control-Allow-Origin", "*")
         response := database.QueryBuyers()
         w.Write([]byte(response))
     })
     r.Get("/products", func(w http.ResponseWriter, r *http.Request) {
+        w.Header().Set("Content-Type", "application/json")
         w.Header().Set("Access-Control-Allow-Origin", "*")
         response := database.QueryProducts()
         w.Write([]byte(response))
     })
     r.Get("/transactions", func(w http.ResponseWriter, r *http.Request) {
+        w.Header().Set("Content-Type", "application/json")
         w.Header().Set("Access-Control-Allow-Origin", "*")
         response := database.QueryTransactions()
         w.Write([]byte(response))
     })
     // User search
     r.Get("/search/{id}", func(w http.ResponseWriter, r *http.Request) {
+        w.Header().Set("Content-Type", "application/json")
         w.Header().Set("Access-Control-Allow-Origin", "*")
         response := database.SearchBuyer(chi.URLParam(r, "id"))
         w.Write([]byte(response))
     })
     // User transactions
     r.Get("/transaction/data/{id}", func(w http.ResponseWriter, r *http.Request) {
+        w.Header().Set("Content-Type", "application/json")
         w.Header().Set("Access-Control-Allow-Origin", "*")
         response := database.TransactionBuyer(chi.URLParam(r, "id"))
         w.Write([]byte(response))
     })
     // Products on transaction
     r.Get("/transaction/products/{id}", func(w http.ResponseWriter, r *http.Request) {
+        w.Header().Set("Content-Type", "application/json")
         w.Header().Set("Access-Control-Allow-Origin", "*")
         response := database.TransactionProducts(chi.URLParam(r, "id"))
         w.Write([]byte(response))
     })
     // Same IP users
     r.Get("/transaction/sameip/{ip}", func(w http.ResponseWriter, r *http.Request) {
+        w.Header().Set("Content-Type", "application/json")
         w.Header().Set("Access-Control-Allow-Origin", "*")
         response := database.SameIPBuyer(chi.URLParam(r, "ip"))
         w.Write([]byte(response))

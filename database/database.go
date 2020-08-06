@@ -30,7 +30,7 @@ type Product struct {
 }
 
 type Transaction struct {
-    ID   string `json:"name"`
+    ID   string `json:"id"`
     BuyerID    string `json:"buyerid"`
     IP  string `json:"ip"`
     Device string `json:"device"`
@@ -281,7 +281,7 @@ func QueryBuyers() (export_buyers string) {
         json_format, _ := json.Marshal(actual)
         export_buyers += string(json_format) + ","
     }
-    export_buyers = "[" + export_buyers + "]"
+    export_buyers = "[" + export_buyers[:len(export_buyers) - 1] + "]"
     if err != nil {
         fmt.Println(err.Error())
     } else {
@@ -324,7 +324,7 @@ func QueryProducts() (export_products string) {
         json_format, _ := json.Marshal(actual)
         export_products += string(json_format) + ","
     }
-    export_products = "[" + export_products + "]"
+    export_products = "[" + export_products[:len(export_products) - 1] + "]"
     if err != nil {
         fmt.Println(err.Error())
     } else {
@@ -368,7 +368,7 @@ func QueryTransactions() (export_transactions string) {
         json_format, _ := json.Marshal(actual)
         export_transactions += string(json_format) + ","
     }
-    export_transactions = "[" + export_transactions + "]"
+    export_transactions = "[" + export_transactions[:len(export_transactions) - 1] + "]"
     if err != nil {
         fmt.Println(err.Error())
     } else {
@@ -411,7 +411,7 @@ func SearchBuyer(id_buyer string) (export_buyers string) {
         json_format, _ := json.Marshal(actual)
         export_buyers += string(json_format) + ","
     }
-    export_buyers = "[" + export_buyers + "]"
+    export_buyers = "[" + export_buyers[:len(export_buyers) - 1] + "]"
     if err != nil {
         fmt.Println(err.Error())
     } else {
@@ -459,7 +459,7 @@ func TransactionBuyer(id_buyer string) (export_transactions string) {
         json_format, _ := json.Marshal(actual)
         export_transactions += string(json_format) + ","
     }
-    export_transactions = "[" + export_transactions + "]"
+    export_transactions = "[" + export_transactions[:len(export_transactions) - 1] + "]"
     if err != nil {
         fmt.Println(err.Error())
     } else {
@@ -505,7 +505,7 @@ func SameIPBuyer(transaction_ip string) (export_sameip string){
         json_format, _ := json.Marshal(actual)
         export_sameip += string(json_format) + ","
     }
-    export_sameip = "[" + export_sameip + "]"
+    export_sameip = "[" + export_sameip[:len(export_sameip) - 1] + "]"
     if err != nil {
         fmt.Println(err.Error())
     } else {
@@ -552,7 +552,7 @@ func TransactionProducts(transaction_id string) (export_products string){
         json_format, _ := json.Marshal(actual)
         export_products += string(json_format) + ","
     }
-    export_products = "[" + export_products + "]"
+    export_products = "[" + export_products[:len(export_products) - 1] + "]"
     if err != nil {
         fmt.Println(err.Error())
     } else {
