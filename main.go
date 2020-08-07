@@ -55,6 +55,12 @@ func main() {
         response := database.SearchBuyer(chi.URLParam(r, "id"))
         w.Write([]byte(response))
     })
+    // No search is done
+    r.Get("/search/", func(w http.ResponseWriter, r *http.Request) {
+        w.Header().Set("Content-Type", "application/json")
+        w.Header().Set("Access-Control-Allow-Origin", "*")
+        w.Write([]byte("[{\"name\": \"Search someone by ID\", \"age\": 0, \"id\": 0}]"))
+    })
     // User transactions
     r.Get("/transaction/data/{id}", func(w http.ResponseWriter, r *http.Request) {
         w.Header().Set("Content-Type", "application/json")

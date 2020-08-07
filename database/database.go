@@ -411,6 +411,12 @@ func SearchBuyer(id_buyer string) (export_buyers string) {
         json_format, _ := json.Marshal(actual)
         export_buyers += string(json_format) + ","
     }
+    // Bad query
+    if len(export_buyers) == 0 {
+        export_buyers = "[{\"name\": \"Not found\", \"age\": 0, \"id\": 0}]"
+        return
+    }
+    // Good query
     export_buyers = "[" + export_buyers[:len(export_buyers) - 1] + "]"
     if err != nil {
         fmt.Println(err.Error())
