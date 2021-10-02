@@ -1,0 +1,17 @@
+services:     
+  ws-server:    
+    image: computational-infrastructure/backend-simple-buyers-platform:1.1
+    
+    container_name: servidor
+
+    ports: 
+      - "3000:3000"
+    
+    environment:
+      - PORT=3000
+
+    networks:
+      - red_interna
+
+networks:
+  red_interna: 
