@@ -1,8 +1,8 @@
 package main
 
 import (
-	"./database"
-	"./handlers"
+	"github.com/backend-simple-buyers-platform/database"
+	"github.com/backend-simple-buyers-platform/handlers"
 	"fmt"
 	"github.com/go-chi/chi"
 	"net/http"
