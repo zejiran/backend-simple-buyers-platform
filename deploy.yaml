@@ -1,12 +1,12 @@
-services:     
-  ws-server:    
-    image: computational-infrastructure/backend-simple-buyers-platform:1.1
-    
-    container_name: servidor
+services:
+  backendSimpleBuyersPlatform:
+    image: elreyzero/backend-simple-buyers-platform:1.1
 
-    ports: 
-      - "3000:3000"
-    
+    container_name: backend-SBP
+
+    ports:
+      - "3100:3100"
+
     environment:
       - PORT=3000
 
@@ -14,4 +14,5 @@ services:
       - red_interna
 
 networks:
-  red_interna: 
+  red_interna: {}
+
