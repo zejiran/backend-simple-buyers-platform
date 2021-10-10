@@ -73,8 +73,9 @@ on line 30 api-rest/database/database.go with your own URL and user for MySQL.
 for setting up UI and see our web app up and running.
 
 ## Docker Commands Used
-docker build -t computational-infrastructure/backend-simple-buyers-platform:1.1 .
-docker-compose -f deploy.yaml up
+-docker build -t computational-infrastructure/backend-simple-buyers-platform:1.1 .
+
+-docker-compose -f deploy.yaml up
 
 ## License
 
