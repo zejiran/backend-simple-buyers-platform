@@ -72,6 +72,11 @@ on line 30 api-rest/database/database.go with your own URL and user for MySQL.
 5. Return to [Frontend](https://github.com/zejiran/frontend-simple-buyers-platform#usage),
 for setting up UI and see our web app up and running.
 
+## Docker Commands Used
+* docker build -t computational-infrastructure/backend-simple-buyers-platform:1.1 .
+
+* docker-compose -f deploy.yaml up
+
 ## License
 
 [![License](http://img.shields.io/:license-mit-blue.svg?style=flat-square)](http://badges.mit-license.org)

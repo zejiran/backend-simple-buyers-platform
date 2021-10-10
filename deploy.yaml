@@ -1,17 +1,15 @@
-services:     
-  ws-server:    
-    image: computational-infrastructure/backend-simple-buyers-platform:1.1
-    
-    container_name: servidor
+version: "3.8"
 
-    ports: 
-      - "3000:3000"
-    
-    environment:
-      - PORT=3000
+services:
+  backendSimpleBuyersPlatform:
+    image: app-dev
 
-    networks:
-      - red_interna
+    container_name: backend-SBP
 
-networks:
-  red_interna: 
+    build:
+            context: .
+    volumes:
+            - .:/app
+
+    ports:
+      - "3100:3100"
