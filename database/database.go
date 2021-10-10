@@ -47,7 +47,7 @@ func Database() {
 	// Init database connection
 	fmt.Println("----------------------------------")
 	fmt.Println("MySQL BuyerDB\n-------------------")
-	db, err := sql.Open("mysql", "tester:@tcp(localhost:3306)/")
+	db, err := sql.Open("mysql", "tester:test@tcp(localhost:3306)/")
 	if err != nil {
 		panic(err.Error())
 	}
@@ -251,7 +251,7 @@ func Database() {
 func QueryBuyers() (exportBuyers string) {
 	// Init database connection
 	fmt.Println("----------------------------------")
-	db, err := sql.Open("mysql", "tester:@tcp(localhost:3306)/BuyerDB")
+	db, err := sql.Open("mysql", "tester:test@tcp(localhost:3306)/BuyerDB")
 	if err != nil {
 		panic(err.Error())
 	}
@@ -294,7 +294,7 @@ func QueryBuyers() (exportBuyers string) {
 func QueryProducts() (exportProducts string) {
 	// Init database connection
 	fmt.Println("----------------------------------")
-	db, err := sql.Open("mysql", "tester:@tcp(localhost:3306)/BuyerDB")
+	db, err := sql.Open("mysql", "tester:test@tcp(localhost:3306)/BuyerDB")
 	if err != nil {
 		panic(err.Error())
 	}
@@ -337,7 +337,7 @@ func QueryProducts() (exportProducts string) {
 func QueryTransactions() (exportTransactions string) {
 	// Init database connection
 	fmt.Println("----------------------------------")
-	db, err := sql.Open("mysql", "tester:@tcp(localhost:3306)/BuyerDB")
+	db, err := sql.Open("mysql", "tester:test@tcp(localhost:3306)/BuyerDB")
 	if err != nil {
 		panic(err.Error())
 	}
@@ -381,7 +381,7 @@ func QueryTransactions() (exportTransactions string) {
 func SearchBuyer(idBuyer string) (exportBuyers string) {
 	// Init database connection
 	fmt.Println("----------------------------------")
-	db, err := sql.Open("mysql", "tester:@tcp(localhost:3306)/BuyerDB")
+	db, err := sql.Open("mysql", "tester:test@tcp(localhost:3306)/BuyerDB")
 	if err != nil {
 		panic(err.Error())
 	}
@@ -430,7 +430,7 @@ func SearchBuyer(idBuyer string) (exportBuyers string) {
 func TransactionBuyer(idBuyer string) (exportTransactions string) {
 	// Init database connection
 	fmt.Println("----------------------------------")
-	db, err := sql.Open("mysql", "tester:@tcp(localhost:3306)/BuyerDB")
+	db, err := sql.Open("mysql", "tester:test@tcp(localhost:3306)/BuyerDB")
 	if err != nil {
 		panic(err.Error())
 	}
@@ -478,7 +478,7 @@ func TransactionBuyer(idBuyer string) (exportTransactions string) {
 func SameIPBuyer(transactionIp string) (exportSameip string) {
 	// Init database connection
 	fmt.Println("----------------------------------")
-	db, err := sql.Open("mysql", "tester:@tcp(localhost:3306)/BuyerDB")
+	db, err := sql.Open("mysql", "tester:test@tcp(localhost:3306)/BuyerDB")
 	if err != nil {
 		panic(err.Error())
 	}
@@ -524,7 +524,7 @@ func SameIPBuyer(transactionIp string) (exportSameip string) {
 func TransactionProducts(transactionId string) (exportProducts string) {
 	// Init database connection
 	fmt.Println("----------------------------------")
-	db, err := sql.Open("mysql", "tester:@tcp(localhost:3306)/BuyerDB")
+	db, err := sql.Open("mysql", "tester:test@tcp(localhost:3306)/BuyerDB")
 	if err != nil {
 		panic(err.Error())
 	}
