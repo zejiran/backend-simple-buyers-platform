@@ -1,0 +1,15 @@
+version: "3.8"
+
+services:
+  backendSimpleBuyersPlatform:
+    image: app-dev
+
+    container_name: backend-SBP
+
+    build:
+            context: .
+    volumes:
+            - .:/app
+
+    ports:
+      - "3100:3100"
